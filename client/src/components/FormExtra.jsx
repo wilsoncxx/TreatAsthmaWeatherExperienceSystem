@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function FormExtra() {
   return (
@@ -19,12 +20,12 @@ function FormExtra() {
       </div>
 
       <div className="text-sm">
-        <a
-          href="#"
+        <Link
+          to="/forgot-password"
           className="font-medium text-purple-600 hover:text-purple-400"
         >
           Forgot your password?
-        </a>
+        </Link>
       </div>
     </div>
   );

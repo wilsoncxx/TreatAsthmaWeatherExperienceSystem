@@ -6,12 +6,12 @@ import { useAuth } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-function Signup() {
+export default function UpdateProfile() {
+  const { currentUser, updatingEmail, updatingPassword } = useAuth();
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -30,15 +30,9 @@ function Signup() {
     setPasswordConfirm(e.target.value);
   };
 
-  const clearForm = async () => {
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setPasswordConfirm("");
-  };
-
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
+
     setButtonClicked((currentClicked) => {
       return !currentClicked;
     });
@@ -47,33 +41,53 @@ function Signup() {
       return setError("Passwords do not match");
     }
 
-    try {
-      setError("");
-      setLoading(true);
-      await signup(email, password);
-      clearForm();
-      toast.info("Directing to Sign In...");
-      toast.success("Signup successful");
-      await new Promise((res) => setTimeout(res, 3250));
-      navigate("/login");
-    } catch (error) {
-      console.log(error);
-      setError(error.toString());
+    const promises = [];
+
+    setError("");
+    setLoading(true);
+
+    if (email !== currentUser.email) {
+      promises.push(updatingEmail(email));
+    } else if (!password) {
+      setLoading(false);
+      return setError("Email should not be the same");
+    }
+    if (password) {
+      promises.push(updatingPassword(password));
     }
 
-    setLoading(false);
+    Promise.all(promises)
+      .then(() => {
+        updateSuccessful();
+      })
+      .catch(() => {
+        setError("Failed to update profile");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+  async function updateSuccessful() {
+    toast.info("Directing to Dashboard...");
+    toast.success("Profile updated successfully");
+    await new Promise((res) => setTimeout(res, 3000));
+    navigate("/dashboard");
   }
 
   useEffect(() => {
-    const signupError = () => {
-      if (error === "Passwords do not match") {
+    const updateError = () => {
+      if (
+        error === "Passwords do not match" ||
+        error === "Email should not be the same"
+      ) {
         toast.warning(error);
       } else if (error !== "") {
         toast.error(error);
       }
     };
 
-    signupError();
+    updateError();
   }, [buttonClicked, error]);
 
   return (
@@ -114,7 +128,7 @@ function Signup() {
           id={"password"}
           name={"password"}
           type={"password"}
-          isRequired={true}
+          isRequired={false}
           autoComplete={"current-password"}
           placeholder={"Password"}
         />
@@ -127,14 +141,14 @@ function Signup() {
           id={"confirm-password"}
           name={"confirm-password"}
           type={"password"}
-          isRequired={true}
+          isRequired={false}
           autoComplete={"confirm-password"}
           placeholder={"Confirm Password"}
         />
         <FormAction
           loading={loading}
           handleSubmit={handleSubmit}
-          text="Signup"
+          text="Update"
         />
       </div>
 
@@ -149,5 +163,3 @@ function Signup() {
     </form>
   );
 }
-
-export default Signup;

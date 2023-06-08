@@ -5,7 +5,7 @@ import QuestionCard from "../components/QuestionCard";
 import SubmitButton from "../components/SubmitButton";
 import { questions } from "../constants/formFields";
 
-function GinaTest() {
+function GinaTestPage() {
   return (
     <div
       className="mx-auto max-w-3xl min-h-screen mobile:px-4 mobile:text-xs tablet:text-md tablet:px-20 tabletxs:px-8
@@ -29,4 +29,4 @@ function GinaTest() {
   );
 }
 
-export default GinaTest;
+export default GinaTestPage;

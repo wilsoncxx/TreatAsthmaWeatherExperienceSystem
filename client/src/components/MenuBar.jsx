@@ -8,7 +8,9 @@ import {
   UilChartBar,
   UilTimes,
 } from "@iconscout/react-unicons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { useAuth } from "../services/AuthService";
 
 function MenuBar({ textColor = "text-gray-300" }) {
   // const logout = () => {
@@ -16,10 +18,21 @@ function MenuBar({ textColor = "text-gray-300" }) {
   // };
 
   const [showMenu, setShowMenu] = useState(false);
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
 
   const buttonClicked = () => {
     setShowMenu(!showMenu);
   };
+
+  async function handleLogout() {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.toString());
+    }
+  }
 
   return (
     <div className="flex flex-row my-6">
@@ -141,26 +154,36 @@ function MenuBar({ textColor = "text-gray-300" }) {
         <ul className="flex items-center">
           <li className="mr-1 cursor-pointer object-cover">
             {/* <img
-              src={process.env.PUBLIC_URL + "/hcy.jpeg"}
+              src={process.env.PUBLIC_URL + "/xxx.jpeg"}
               alt=""
               className="mobile:w-7 mobile:h-7 tablet:w-8 tablet:h-8 w-9 h-9 rounded-full"
             /> */}
-            <UilUserCircle size={25} className={`${textColor}`} />
+            <Link to={"/dashboard"}>
+              <UilUserCircle size={25} className={`${textColor}`} />
+            </Link>
           </li>
           <li
             className={`mr-5 mobile:mr-3 font-medium ${textColor} cursor-pointer hover:text-white text-sm capitalize transition ease-out`}
           >
-            {/* Han Congying */}
-            Wilson Cho
+            <Link to={"/dashboard"}>Wilson Cho</Link>
           </li>
           <li
             className={`font-medium cursor-pointer ${textColor} hover:text-white text-sm transition ease-out`}
             // onClick={handleLogout}
           >
-            <Link to={"/login"}>Logout</Link>
+            <button onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </div>
+
+      <ToastContainer
+        autoClose={3000}
+        theme="colored"
+        newestOnTop={true}
+        closeOnClick
+        pauseOnFocusLoss={false}
+        pauseOnHover={false}
+      />
     </div>
   );
 }

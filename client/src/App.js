@@ -1,84 +1,77 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignupPage from "./pages/Signup";
 import LoginPage from "./pages/Login";
+import DashboardPage from "./pages/Dashboard";
 import WeatherPage from "./pages/Weather";
 import GinaTestPage from "./pages/GinaTest";
 import RecordsPage from "./pages/Records";
 import StatisticsPage from "./pages/Statistics";
-import { useEffect, useState } from "react";
+import { AuthProvider } from "./services/AuthService";
+import PrivateRoute from "./components/PrivateRoute";
+import ForgotPasswordPage from "./pages/ForgotPassword";
+import UpdateProfilePage from "./pages/UpdateProfile";
 
 function App() {
-  // const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     fetch("http://localhost:5000/auth/login/success", {
-  //       method: "GET",
-  //       credentials: "include",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Credentials": true,
-  //       },
-  //     })
-  //       .then((response) => {
-  //         if (response.status === 200) return response.json();
-  //         throw new Error("authentication failed!");
-  //       })
-  //       .then((resObject) => {
-  //         setUser(resObject.user);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   getUser();
-  // }, []);
-
   return (
-    <>
+    <AuthProvider>
       <Router>
         <Routes>
           <Route
-            path="/"
             exact
-            element={<WeatherPage />}
-            // element={user ? <WeatherPage /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/login"
-            element={<LoginPage />}
-            // element={user ? <Navigate to="/" /> : <LoginPage />}
-          />
-          <Route
-            path="/signup"
-            element={<SignupPage />}
-            // element={user ? <Navigate to="/" /> : <SignupPage />}
+            path="/"
+            element={
+              <PrivateRoute>
+                <WeatherPage />
+              </PrivateRoute>
+            }
           />
           <Route
             path="/gina-test"
-            element={<GinaTestPage />}
-            // element={user ? <Navigate to="/" /> : <SignupPage />}
+            element={
+              <PrivateRoute>
+                <GinaTestPage />
+              </PrivateRoute>
+            }
           />
           <Route
             path="/records"
-            element={<RecordsPage />}
-            // element={user ? <Navigate to="/" /> : <SignupPage />}
+            element={
+              <PrivateRoute>
+                <RecordsPage />
+              </PrivateRoute>
+            }
           />
           <Route
             path="/statistics"
-            element={<StatisticsPage />}
-            // element={user ? <Navigate to="/" /> : <SignupPage />}
+            element={
+              <PrivateRoute>
+                <StatisticsPage />
+              </PrivateRoute>
+            }
           />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <DashboardPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/update-profile"
+            element={
+              <PrivateRoute>
+                <UpdateProfilePage />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         </Routes>
       </Router>
-    </>
+    </AuthProvider>
   );
 }
 

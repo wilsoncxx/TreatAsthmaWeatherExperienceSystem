@@ -1,28 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import FormAction from "./FormAction";
-import FormExtra from "./FormExtra";
 import FormInputs from "./FormInputs";
-import { authentications } from "../constants/formFields";
-import Authentications from "./Authentications";
 import { useAuth } from "../services/AuthService";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
-function Login() {
+function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { resetPassword } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
-  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-  };
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
   };
 
   async function handleSubmit(e) {
@@ -34,8 +26,9 @@ function Login() {
     try {
       setError("");
       setLoading(true);
-      await login(email, password);
-      navigate("/");
+      await resetPassword(email);
+      toast.info("Check your email for password reset link");
+      toast.success("Your password has been reset successfully");
     } catch (error) {
       console.log(error);
       setError(error.toString());
@@ -45,13 +38,13 @@ function Login() {
   }
 
   useEffect(() => {
-    const loginFailed = () => {
+    const resetPasswordFailed = () => {
       if (error !== "") {
         toast.error(error);
       }
     };
 
-    loginFailed();
+    resetPasswordFailed();
   }, [buttonClicked, error]);
 
   return (
@@ -70,36 +63,21 @@ function Login() {
           autoComplete={"email"}
           placeholder={"Email address"}
         />
-        <FormInputs
-          key={"password"}
-          handleChange={handlePasswordChange}
-          value={password}
-          labelText={"Password"}
-          labelFor={"password"}
-          id={"password"}
-          name={"password"}
-          type={"password"}
-          isRequired={true}
-          autoComplete={"current-password"}
-          placeholder={"Password"}
-        />
       </div>
 
-      <FormExtra />
-      <FormAction loading={loading} handleSubmit={handleSubmit} text="Login" />
-      <div className="relative flex items-center justify-center w-full border border-t border-purple-400">
-        <div className="absolute px-3 bg-white text-violet-600">Or</div>
+      <div className="text-sm flex items-center justify-end">
+        <Link
+          to="/login"
+          className="font-medium text-purple-600 hover:text-purple-400"
+        >
+          Back to Login
+        </Link>
       </div>
-
-      {authentications.map((auth) => (
-        <Authentications
-          key={auth.id}
-          symbol={auth.symbol}
-          text={auth.text}
-          linkUrl={auth.linkUrl}
-          // onClick={auth.onClick()}
-        />
-      ))}
+      <FormAction
+        loading={loading}
+        handleSubmit={handleSubmit}
+        text="Reset Password"
+      />
 
       <ToastContainer
         autoClose={3000}
@@ -112,4 +90,4 @@ function Login() {
     </form>
   );
 }
-export default Login;
+export default ForgotPassword;

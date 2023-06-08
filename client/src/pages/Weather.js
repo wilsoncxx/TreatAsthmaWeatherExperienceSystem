@@ -7,11 +7,11 @@ import TemperatureAndDetails from "../components/TemperatureAndDetails";
 import Forecast from "../components/Forecast";
 import { useEffect, useState } from "react";
 import getFormattedWeatherData from "../services/weatherService";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { DateTime } from "luxon";
 import "react-toastify/dist/ReactToastify.css";
 
-function Weather() {
+function WeatherPage() {
   const [query, setQuery] = useState({ q: "cyberjaya" });
   // const [units, setUnits] = useState("metric");
   const [weather, setWeather] = useState(null);
@@ -116,16 +116,8 @@ function Weather() {
           />
         </div>
       )}
-
-      <ToastContainer
-        autoClose={3000}
-        theme="colored"
-        newestOnTop={true}
-        closeOnClick
-        pauseOnFocusLoss={false}
-      />
     </div>
   );
 }
 
-export default Weather;
+export default WeatherPage;
