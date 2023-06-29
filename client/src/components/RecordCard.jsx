@@ -3,9 +3,9 @@ import Divider from "@mui/material/Divider";
 
 function RecordCard({
   dateTime,
-  score,
-  scoreColor,
+  weather,
   details,
+  detailsColor,
   airQuality,
   aqiColor,
 }) {
@@ -17,13 +17,13 @@ function RecordCard({
         flexItem
         className="bg-black bg-opacity-50"
       />
-      <div className={`text-lg mobile:text-base ${scoreColor}`}>{score}</div>
+      <div className={`${detailsColor}`}>{details}</div>
       <Divider
         orientation="vertical"
         flexItem
         className="bg-black bg-opacity-50"
       />
-      <div className="">{details}</div>
+      <div className="">{weather}</div>
       <Divider
         orientation="vertical"
         flexItem

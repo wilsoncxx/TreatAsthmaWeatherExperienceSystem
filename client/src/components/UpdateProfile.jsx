@@ -5,9 +5,13 @@ import FormInputs from "./FormInputs";
 import { useAuth } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import DeleteAccount from "./DeleteAccount";
 
 export default function UpdateProfile() {
-  const { currentUser, updatingEmail, updatingPassword } = useAuth();
+  const { currentUser, updatingEmail, updatingPassword, updateUsername } =
+    useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState("");
@@ -15,6 +19,7 @@ export default function UpdateProfile() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [currentUsername, setCurrentUsername] = useState("");
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -30,6 +35,17 @@ export default function UpdateProfile() {
     setPasswordConfirm(e.target.value);
   };
 
+  useEffect(() => {
+    const getUser = async () => {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      setCurrentUsername(docSnap.data().username);
+      console.log(docSnap.data());
+    };
+
+    getUser();
+  }, [currentUser.uid]);
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -42,15 +58,14 @@ export default function UpdateProfile() {
     }
 
     const promises = [];
-
     setError("");
     setLoading(true);
 
+    if (username !== currentUsername) {
+      promises.push(updateUsername(currentUser.uid, username));
+    }
     if (email !== currentUser.email) {
       promises.push(updatingEmail(email));
-    } else if (!password) {
-      setLoading(false);
-      return setError("Email should not be the same");
     }
     if (password) {
       promises.push(updatingPassword(password));
@@ -91,7 +106,7 @@ export default function UpdateProfile() {
   }, [buttonClicked, error]);
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+    <form className="" onSubmit={handleSubmit}>
       <div className="">
         <FormInputs
           key={"username"}
@@ -145,6 +160,7 @@ export default function UpdateProfile() {
           autoComplete={"confirm-password"}
           placeholder={"Confirm Password"}
         />
+        <DeleteAccount />
         <FormAction
           loading={loading}
           handleSubmit={handleSubmit}

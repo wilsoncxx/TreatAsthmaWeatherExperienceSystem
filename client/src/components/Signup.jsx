@@ -50,7 +50,7 @@ function Signup() {
     try {
       setError("");
       setLoading(true);
-      await signup(email, password);
+      await signup(email, password, username);
       clearForm();
       toast.info("Directing to Sign In...");
       toast.success("Signup successful");

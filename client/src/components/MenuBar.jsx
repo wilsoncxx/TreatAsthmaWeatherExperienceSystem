@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   UilBars,
   UilUserCircle,
@@ -10,6 +10,8 @@ import {
 } from "@iconscout/react-unicons";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { db } from "../firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../services/AuthService";
 
 function MenuBar({ textColor = "text-gray-300" }) {
@@ -19,11 +21,23 @@ function MenuBar({ textColor = "text-gray-300" }) {
 
   const [showMenu, setShowMenu] = useState(false);
   const { currentUser, logout } = useAuth();
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   const buttonClicked = () => {
     setShowMenu(!showMenu);
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      setUsername(docSnap.data().username);
+      console.log(docSnap.data());
+    };
+
+    getUser();
+  }, [currentUser.uid]);
 
   async function handleLogout() {
     try {
@@ -159,13 +173,16 @@ function MenuBar({ textColor = "text-gray-300" }) {
               className="mobile:w-7 mobile:h-7 tablet:w-8 tablet:h-8 w-9 h-9 rounded-full"
             /> */}
             <Link to={"/dashboard"}>
-              <UilUserCircle size={25} className={`${textColor}`} />
+              <UilUserCircle
+                size={25}
+                className={`${textColor} hover:text-white transition ease-out`}
+              />
             </Link>
           </li>
           <li
             className={`mr-5 mobile:mr-3 font-medium ${textColor} cursor-pointer hover:text-white text-sm capitalize transition ease-out`}
           >
-            <Link to={"/dashboard"}>Wilson Cho</Link>
+            <Link to={"/dashboard"}>{username}</Link>
           </li>
           <li
             className={`font-medium cursor-pointer ${textColor} hover:text-white text-sm transition ease-out`}

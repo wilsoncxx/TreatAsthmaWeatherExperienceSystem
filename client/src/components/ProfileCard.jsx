@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../services/AuthService";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
 function ProfileCard() {
   const { currentUser } = useAuth();
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      setUsername(docSnap.data().username);
+      console.log(docSnap.data());
+    };
+
+    getUser();
+  }, [currentUser.uid]);
 
   return (
     <div className="mx-auto bg-white rounded-md my-10 py-6 mobile:pt-4 mobile:pb-2 px-10">
+      <p className="capitalize">
+        <span className="font-semibold text-center text-xl mobile:text-base mx-2">
+          Username:
+        </span>
+        {username}
+      </p>
       <p>
         <span className="font-semibold text-center text-xl mobile:text-base mx-2">
           Email:

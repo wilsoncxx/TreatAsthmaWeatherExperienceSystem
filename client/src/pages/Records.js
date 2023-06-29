@@ -2,6 +2,7 @@ import React from "react";
 import MenuBar from "../components/MenuBar";
 import PageTitle from "../components/PageTitle";
 import RecordCard from "../components/RecordCard";
+import RecordLegend from "../components/RecordLegend";
 
 function RecordsPage() {
   return (
@@ -12,20 +13,21 @@ function RecordsPage() {
       <MenuBar textColor={"text-slate-800"} />
 
       <PageTitle title={"GINA Records"} />
+      <RecordLegend />
 
       <RecordCard
         dateTime={"2023-2-10 01:52"}
-        score={"5"}
-        scoreColor={"text-red-600"}
-        details={"Uncontrolled Asthma"}
+        weather={"Clouds"}
+        details={"Uncontrolled"}
+        detailsColor={"text-red-500"}
         airQuality={"Moderate (3)"}
         aqiColor={"text-yellow-500"}
       />
       <RecordCard
         dateTime={"2023-2-11 02:34"}
-        score={"8"}
-        scoreColor={"text-red-600"}
-        details={"Uncontrolled Asthma"}
+        weather={"Clouds"}
+        details={"Controlled"}
+        detailsColor={"text-green-500"}
         airQuality={"Good (1)"}
         aqiColor={"text-green-500"}
       />

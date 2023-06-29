@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,7 +7,17 @@ import {
   sendPasswordResetEmail,
   updateEmail,
   updatePassword,
+  deleteUser,
 } from "firebase/auth";
+import {
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const AuthContext = React.createContext("auth");
 
@@ -18,9 +28,20 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [userID, setUserID] = useState("");
+  const usersColRef = collection(db, "users");
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signup(email, password, newdisplayName) {
+    return createUserWithEmailAndPassword(auth, email, password).then(
+      async (credentials) => {
+        const newUserRef = doc(db, "users", credentials.user.uid);
+        setUserID(credentials.user.uid);
+        await setDoc(newUserRef, {
+          username: newdisplayName,
+          userId: credentials.user.uid,
+        });
+      }
+    );
   }
 
   function login(email, password) {
@@ -42,6 +63,18 @@ export function AuthProvider({ children }) {
     return updatePassword(auth.currentUser, password);
   }
 
+  const updateUsername = async (id, newUsername) => {
+    const userDoc = doc(db, "users", id);
+    const updatedName = { username: newUsername };
+    await updateDoc(userDoc, updatedName);
+  };
+
+  const deleteThisUser = async (id) => {
+    const userDoc = doc(db, "users", id);
+    await deleteDoc(userDoc);
+    await deleteUser(currentUser);
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setCurrentUser(user);
@@ -59,6 +92,8 @@ export function AuthProvider({ children }) {
     resetPassword,
     updatingEmail,
     updatingPassword,
+    updateUsername,
+    deleteThisUser,
   };
 
   return (
