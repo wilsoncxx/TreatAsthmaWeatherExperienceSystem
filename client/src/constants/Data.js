@@ -27,3 +27,7 @@ const scoreData = [
 ];
 
 export { scoreData };
+
+export const allText = {
+  Logout: ["Log Keluar"],
+};

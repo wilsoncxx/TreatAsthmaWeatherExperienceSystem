@@ -159,7 +159,6 @@ const formatAirQualityForecast = (data) => {
           />
         );
     }
-    console.log(counter);
     return {
       counter: counter++,
       title: d.dt,

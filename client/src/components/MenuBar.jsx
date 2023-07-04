@@ -7,12 +7,14 @@ import {
   UilClipboardNotes,
   UilChartBar,
   UilTimes,
+  UilLanguage,
 } from "@iconscout/react-unicons";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useAuth } from "../services/AuthService";
+import { useAPI } from "../services/APIService";
 
 function MenuBar({ textColor = "text-gray-300" }) {
   // const logout = () => {
@@ -23,6 +25,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
   const { currentUser, logout } = useAuth();
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const { lc, language, changeLanguage } = useAPI();
 
   const buttonClicked = () => {
     setShowMenu(!showMenu);
@@ -49,7 +52,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
   }
 
   return (
-    <div className="flex flex-row my-6">
+    <div className="flex flex-row my-6 w-full">
       <div className="flex flex-row w-1/4 items-baseline space-x-4 justify-start">
         <UilBars
           size={25}
@@ -62,11 +65,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
         <ul
           className={`transition-transform ease-in-out mx-auto flex-col flex items-center fixed inset-0 max-w-3xl justify-center uppercase gap-12
           text-white text-xl bg-black/40 backdrop-blur-lg sm:hidden
-          ${
-            showMenu
-              ? " duration-500"
-              : "-translate-y-full duration-700 max-h-full"
-          }`}
+          ${showMenu ? " duration-500" : "-translate-y-full duration-700 max-h-full"}`}
         >
           <li>
             <UilTimes
@@ -75,40 +74,28 @@ function MenuBar({ textColor = "text-gray-300" }) {
               onClick={buttonClicked}
             />
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/" className="flex flex-row gap-1">
               <UilClouds />
               Weather
             </Link>
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/gina-test" className="flex flex-row gap-1">
               <UilFileQuestionAlt />
               GINA Test
             </Link>
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/records" className="flex flex-row gap-1">
               <UilClipboardNotes />
               GINA Records
             </Link>
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
-            <Link to="/statistics" className="flex flex-row gap-1">
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
+            <Link to="/health-advice" className="flex flex-row gap-1">
               <UilChartBar />
-              Statistics
+              Health Advice
             </Link>
           </li>
         </ul>
@@ -125,37 +112,25 @@ function MenuBar({ textColor = "text-gray-300" }) {
               onClick={buttonClicked}
             />
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/" className="flex flex-row gap-1">
               <UilClouds />
               Weather
             </Link>
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/gina-test" className="flex flex-row gap-1">
               <UilFileQuestionAlt />
               GINA Test
             </Link>
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/records" className="flex flex-row gap-1">
               <UilClipboardNotes />
               GINA Records
             </Link>
           </li>
-          <li
-            className="hover:scale-110 transition ease-out"
-            onClick={buttonClicked}
-          >
+          <li className="hover:scale-110 transition ease-out" onClick={buttonClicked}>
             <Link to="/statistics" className="flex flex-row gap-1">
               <UilChartBar />
               Statistics
@@ -173,10 +148,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
               className="mobile:w-7 mobile:h-7 tablet:w-8 tablet:h-8 w-9 h-9 rounded-full"
             /> */}
             <Link to={"/dashboard"}>
-              <UilUserCircle
-                size={25}
-                className={`${textColor} hover:text-white transition ease-out`}
-              />
+              <UilUserCircle size={25} className={`${textColor} hover:text-white transition ease-out`} />
             </Link>
           </li>
           <li
@@ -188,8 +160,15 @@ function MenuBar({ textColor = "text-gray-300" }) {
             className={`font-medium cursor-pointer ${textColor} hover:text-white text-sm transition ease-out`}
             // onClick={handleLogout}
           >
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}>{lc("Logout")}</button>
           </li>
+          <div
+            className={`flex gap-2 items-center p-1 border-2 ${textColor} hover:text-white hover:border-white border-gray-300 ml-6 rounded-md cursor-pointer text-sm pr-2`}
+            onClick={changeLanguage}
+          >
+            <UilLanguage size={20} className={`transition ease-out cursor-pointer`} />
+            <div className="select-none">{language.toUpperCase()}</div>
+          </div>
         </ul>
       </div>
 

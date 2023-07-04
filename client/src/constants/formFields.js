@@ -1,5 +1,7 @@
 import { UilGoogle } from "@iconscout/react-unicons";
 import { UilFacebookF } from "@iconscout/react-unicons";
+import { GoogleAuthProvider, getAuth, signInWithRedirect } from "firebase/auth";
+import { Navigate } from "react-router-dom";
 
 const cities = [
   {
@@ -30,9 +32,13 @@ const authentications = [
     symbol: <UilGoogle size={23} className="text-white mx-1.5" />,
     text: "Login with google",
     linkUrl: "/",
-    // onClick: () => {
-    //   window.open("http://localhost:5000/auth/google", "_self");
-    // },
+    onClick: async (navigate) => {
+      const provider = new GoogleAuthProvider();
+      // provider.addScope("https://www.googleapis.com/auth/contacts.readonly");
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
+      // console.log("asdf");
+    },
   },
   {
     id: "facebook",

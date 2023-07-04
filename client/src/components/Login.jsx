@@ -8,11 +8,12 @@ import Authentications from "./Authentications";
 import { useAuth } from "../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { getAuth } from "firebase/auth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -53,6 +54,10 @@ function Login() {
 
     loginFailed();
   }, [buttonClicked, error]);
+
+  useEffect(() => {
+    if (currentUser != null) navigate("/");
+  }, [currentUser]);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
@@ -97,7 +102,7 @@ function Login() {
           symbol={auth.symbol}
           text={auth.text}
           linkUrl={auth.linkUrl}
-          // onClick={auth.onClick()}
+          onClick={() => auth.onClick(navigate)}
         />
       ))}
 

@@ -8,7 +8,7 @@ function Authentications({ symbol, text, linkUrl, onClick }) {
         <button
           type="button"
           className="flex items-center justify-center w-full p-2 rounded-md text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-          // onClick={onClick}
+          onClick={onClick}
         >
           {symbol}
           {text}
