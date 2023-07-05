@@ -4,9 +4,23 @@ import { getGinaTestStatusProps } from "../../pages/GinaTest";
 function GinaTestResult({ value }) {
   return (
     <div className="mb-10 flex flex-col items-center justify-center w-full flex-1 gap-3">
-      <ResultBar min="3" max="4" value={value == 0} content={getGinaTestStatusProps(0)} />
-      <ResultBar max="2" value={value == 1} content={getGinaTestStatusProps(1)} />
-      <ResultBar min="0" max="1" value={value == 2} content={getGinaTestStatusProps(2)} />
+      <ResultBar
+        min="3"
+        max="4"
+        value={value == 0}
+        content={getGinaTestStatusProps(0)}
+      />
+      <ResultBar
+        min="1"
+        max="2"
+        value={value == 1}
+        content={getGinaTestStatusProps(1)}
+      />
+      <ResultBar
+        min="0"
+        value={value == 2}
+        content={getGinaTestStatusProps(2)}
+      />
     </div>
   );
 }
