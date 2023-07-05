@@ -16,6 +16,7 @@ function FormInputs({
   autoComplete,
   placeholder,
   customClass,
+  disabled = false,
 }) {
   return (
     <div className="my-5">
@@ -32,6 +33,7 @@ function FormInputs({
         autoComplete={autoComplete}
         className={fixedInputClass + customClass}
         placeholder={placeholder}
+        disabled={disabled}
       />
     </div>
   );

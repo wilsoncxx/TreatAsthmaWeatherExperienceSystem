@@ -131,23 +131,25 @@ function TemperatureAndDetails({
 
   return (
     <div>
-      <div className="flex flex-row items-center justify-between text-white pb-2">
-        <div className="flex flex-col justify-center items-center text-xl sm:text-lg mobilexs:text-base text-sky-200">
-          <p className="pt-4 mobile:pt-0 tablet:pt-2">{details}</p>
-          <img
-            src={iconUrlFromCode(icon)}
-            alt={details}
-            title={description}
-            className="w-28 sm:w-24 mobilexs:w-20 hover:scale-110 transition"
-          />
+      <div className="flex flex-row items-center justify-between text-white pb-2 ">
+        <div className="flex flex-row items-center justify-between flex-1 w-full">
+          <div className="flex flex-col justify-center items-center text-xl sm:text-lg mobilexs:text-base text-sky-200 ">
+            <p className="pt-4 mobile:pt-0 tablet:pt-2">{details}</p>
+            <img
+              src={iconUrlFromCode(icon)}
+              alt={details}
+              title={description}
+              className="w-28 sm:w-24 mobilexs:w-20 hover:scale-110 transition"
+            />
+          </div>
+          <p className="mobile:text-7xl text-9xl tablet:text-8xl tabletxs:text-8xl mobilexs:text-6xl flex-1 text-center">
+            {`${temp.toFixed()}`}
+            <span className=" align-top mobile:text-3xl text-5xl tablet:text-4xl tabletxs:text-4xl mobilexs:text-2xl">
+              °C
+            </span>
+          </p>
         </div>
-        <p className="mobile:text-7xl text-9xl tablet:text-8xl tabletxs:text-8xl mobilexs:text-6xl">
-          {`${temp.toFixed()}`}
-          <span className=" align-top mobile:text-3xl text-5xl tablet:text-4xl tabletxs:text-4xl mobilexs:text-2xl">
-            °C
-          </span>
-        </p>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col gap-2 w-100">
           {/* 
           <div className="flex font-light text-sm sm:text-xs items-center justify-center">
             <UilTemperature size={18} className="mr-1" />
@@ -165,34 +167,24 @@ function TemperatureAndDetails({
             <span className="font-medium ml-1">{`${speed.toFixed()} km/h`}</span>
           </div> 
           */}
-          <div className="flex font-light text-sm sm:text-xs items-center justify-center tracking-wider">
-            <UilChartLine size={18} className="mr-1" />
-            AQI:
-            <span
-              className={`font-medium ml-1 ${aqiTextColor} tracking-normal`}
-            >{`${airQualitativeName}`}</span>
-          </div>
-          <div className="flex font-light text-sm sm:text-xs items-center justify-center tracking-wider">
-            <UilChannel size={18} className="mr-1" />
-            PM2.5:
-            <span
-              className={`font-medium ml-1 ${pm2_5TextColor} tracking-normal`}
-            >{`${pm2_5QualitativeName}`}</span>
-          </div>
-          <div className="flex font-light text-sm sm:text-xs items-center justify-center tracking-wider">
-            <Uil10Plus size={18} className="mr-1" />
-            PM10:
-            <span
-              className={`font-medium ml-1 ${pm10TextColor} tracking-normal`}
-            >{`${pm10QualitativeName}`}</span>
-          </div>
-          <div className="flex font-light text-sm sm:text-xs items-center justify-center tracking-wider">
-            <UilCoronavirus size={18} className="mr-1" />
-            NO2:
-            <span
-              className={`font-medium ml-1 ${no2TextColor} tracking-normal`}
-            >{`${no2QualitativeName}`}</span>
-          </div>
+          {[
+            { Icon: UilChartLine, label: "AQI", color: aqiTextColor, value: airQualitativeName },
+            { Icon: UilChannel, label: "PM2.5", color: pm2_5TextColor, value: pm2_5QualitativeName },
+            { Icon: Uil10Plus, label: "PM10", color: pm10TextColor, value: pm10QualitativeName },
+            { Icon: UilCoronavirus, label: "NO2", color: no2TextColor, value: no2QualitativeName },
+          ].map(({ Icon, label, color, value }, index) => (
+            <div
+              className="flex font-light text-sm sm:text-xs items-center justify-center tracking-wider"
+              key={index}
+            >
+              <div className="flex flex-1">
+                <Icon size={18} className="mr-1" />
+                {label}
+              </div>
+
+              <div className={`font-medium ml-1 ${color} tracking-normal flex-2`}>{`${value}`}</div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -200,17 +192,13 @@ function TemperatureAndDetails({
         <UilMountainsSun />
         <p className="font-light">
           Rise:
-          <span className="font-medium ml-1">
-            {formatToLocalTime(sunrise, timezone, "hh:mma")}
-          </span>
+          <span className="font-medium ml-1">{formatToLocalTime(sunrise, timezone, "hh:mma")}</span>
         </p>
         <p className="font-light">|</p>
         <UilSunset />
         <p className="font-light">
           Set:
-          <span className="font-medium ml-1">
-            {formatToLocalTime(sunset, timezone, "hh:mma")}
-          </span>
+          <span className="font-medium ml-1">{formatToLocalTime(sunset, timezone, "hh:mma")}</span>
         </p>
         <p className="font-light">|</p>
         <UilTemperaturePlus />

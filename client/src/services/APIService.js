@@ -54,7 +54,8 @@ export const APIProvider = ({ children }) => {
 
   // gina record
   const getGinaRecord = async () => {
-    setGinaRecord(await getDocuments("records", currentUser?.uid));
+    const data = await getDocuments("records", currentUser?.uid);
+    setGinaRecord(data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime)));
   };
 
   const createGinaRecord = async (data) => {

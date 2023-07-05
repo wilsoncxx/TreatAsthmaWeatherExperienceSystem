@@ -13,7 +13,7 @@ import { getAuth } from "firebase/auth";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, currentUser } = useAuth();
+  const { login, currentUser, addNewUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -102,7 +102,7 @@ function Login() {
           symbol={auth.symbol}
           text={auth.text}
           linkUrl={auth.linkUrl}
-          onClick={() => auth.onClick(navigate)}
+          onClick={() => auth.onClick(addNewUser)}
         />
       ))}
 

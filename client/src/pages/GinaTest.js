@@ -22,7 +22,7 @@ export const getGinaTestStatusProps = (v) => {
       text: "Poorly Controlled Asthma",
       color: { text: "text-orange-400", bg: "bg-orange-300" },
     },
-    { level: "Less", text: "Well-Controlled Asthma", color: { text: "text-green-400", bg: "bg-green-400" } },
+    { level: "Low", text: "Well-Controlled Asthma", color: { text: "text-green-400", bg: "bg-green-400" } },
   ];
   if (v >= 0 && v < data.length) return data[v];
   return { text: "Undefined", color: { text: "text-black", bg: "bg-slate-100" } };
@@ -64,7 +64,7 @@ function GinaTestPage() {
       {submited ? (
         <GinaTestResult value={resultIndex} />
       ) : (
-        <div className="w-full flex-1 flex flex-col justify-center gap-2">
+        <div className="w-full flex-1 flex flex-col justify-center gap-2 my-10">
           {questions.map((question, index) => (
             <QuestionCard
               key={question.id}

@@ -8,10 +8,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import DeleteAccount from "./DeleteAccount";
+import { getAuth } from "firebase/auth";
 
 export default function UpdateProfile() {
-  const { currentUser, updatingEmail, updatingPassword, updateUsername } =
-    useAuth();
+  const { currentUser, updatingEmail, updatingPassword, updateUsername } = useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState("");
@@ -20,6 +20,7 @@ export default function UpdateProfile() {
   const [loading, setLoading] = useState(false);
   const [buttonClicked, setButtonClicked] = useState(false);
   const [currentUsername, setCurrentUsername] = useState("");
+  const [isLoginWithGoogle, setIsLoginWithGoogle] = useState(false);
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -44,6 +45,8 @@ export default function UpdateProfile() {
     };
 
     getUser();
+    const user = getAuth().currentUser;
+    if (user.providerData[0]?.providerId == "google.com") setIsLoginWithGoogle(true);
   }, [currentUser.uid]);
 
   function handleSubmit(e) {
@@ -92,10 +95,7 @@ export default function UpdateProfile() {
 
   useEffect(() => {
     const updateError = () => {
-      if (
-        error === "Passwords do not match" ||
-        error === "Email should not be the same"
-      ) {
+      if (error === "Passwords do not match" || error === "Email should not be the same") {
         toast.warning(error);
       } else if (error !== "") {
         toast.error(error);
@@ -133,39 +133,40 @@ export default function UpdateProfile() {
           isRequired={true}
           autoComplete={"email"}
           placeholder={"Email address"}
+          disabled={isLoginWithGoogle}
         />
-        <FormInputs
-          key={"password"}
-          handleChange={handlePasswordChange}
-          value={password}
-          labelText={"Password"}
-          labelFor={"password"}
-          id={"password"}
-          name={"password"}
-          type={"password"}
-          isRequired={false}
-          autoComplete={"current-password"}
-          placeholder={"Password"}
-        />
-        <FormInputs
-          key={"confirm-password"}
-          handleChange={handlePasswordConfirmChange}
-          value={passwordConfirm}
-          labelText={"Confirm Password"}
-          labelFor={"confirm-password"}
-          id={"confirm-password"}
-          name={"confirm-password"}
-          type={"password"}
-          isRequired={false}
-          autoComplete={"confirm-password"}
-          placeholder={"Confirm Password"}
-        />
+        {!isLoginWithGoogle && (
+          <FormInputs
+            key={"password"}
+            handleChange={handlePasswordChange}
+            value={password}
+            labelText={"Password"}
+            labelFor={"password"}
+            id={"password"}
+            name={"password"}
+            type={"password"}
+            isRequired={false}
+            autoComplete={"current-password"}
+            placeholder={"Password"}
+          />
+        )}
+        {!isLoginWithGoogle && (
+          <FormInputs
+            key={"confirm-password"}
+            handleChange={handlePasswordConfirmChange}
+            value={passwordConfirm}
+            labelText={"Confirm Password"}
+            labelFor={"confirm-password"}
+            id={"confirm-password"}
+            name={"confirm-password"}
+            type={"password"}
+            isRequired={false}
+            autoComplete={"confirm-password"}
+            placeholder={"Confirm Password"}
+          />
+        )}
         <DeleteAccount />
-        <FormAction
-          loading={loading}
-          handleSubmit={handleSubmit}
-          text="Update"
-        />
+        <FormAction loading={loading} handleSubmit={handleSubmit} text="Update" />
       </div>
 
       <ToastContainer

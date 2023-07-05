@@ -9,15 +9,7 @@ import {
   updatePassword,
   deleteUser,
 } from "firebase/auth";
-import {
-  collection,
-  doc,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, doc, addDoc, setDoc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 
 const AuthContext = React.createContext("auth");
 
@@ -31,17 +23,16 @@ export function AuthProvider({ children }) {
   const [userID, setUserID] = useState("");
   const usersColRef = collection(db, "users");
 
+  async function addNewUser(username, userId) {
+    const newUserRef = doc(db, "users", userId);
+    await setDoc(newUserRef, { username, userId });
+  }
+
   async function signup(email, password, newdisplayName) {
-    return createUserWithEmailAndPassword(auth, email, password).then(
-      async (credentials) => {
-        const newUserRef = doc(db, "users", credentials.user.uid);
-        setUserID(credentials.user.uid);
-        await setDoc(newUserRef, {
-          username: newdisplayName,
-          userId: credentials.user.uid,
-        });
-      }
-    );
+    return createUserWithEmailAndPassword(auth, email, password).then(async (credentials) => {
+      setUserID(credentials.user.uid);
+      addNewUser(newdisplayName, credentials.user.uid);
+    });
   }
 
   function login(email, password) {
@@ -85,6 +76,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const value = {
+    addNewUser,
     currentUser,
     login,
     signup,
@@ -96,9 +88,5 @@ export function AuthProvider({ children }) {
     deleteThisUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }
