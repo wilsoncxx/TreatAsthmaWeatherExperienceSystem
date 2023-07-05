@@ -52,10 +52,10 @@ function Signup() {
       setLoading(true);
       await signup(email, password, username);
       clearForm();
-      toast.info("Directing to Sign In...");
+      toast.info("Logging In...");
       toast.success("Signup successful");
       await new Promise((res) => setTimeout(res, 3250));
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
       setError(error.toString());

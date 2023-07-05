@@ -22,15 +22,27 @@ export const getGinaTestStatusProps = (v) => {
       text: "Poorly Controlled Asthma",
       color: { text: "text-orange-400", bg: "bg-orange-300" },
     },
-    { level: "Low", text: "Well-Controlled Asthma", color: { text: "text-green-400", bg: "bg-green-400" } },
+    {
+      level: "Low",
+      text: "Well-Controlled Asthma",
+      color: { text: "text-green-400", bg: "bg-green-400" },
+    },
   ];
   if (v >= 0 && v < data.length) return data[v];
-  return { text: "Undefined", color: { text: "text-black", bg: "bg-slate-100" } };
+  return {
+    text: "Undefined",
+    color: { text: "text-black", bg: "bg-slate-100" },
+  };
 };
 
 function GinaTestPage() {
   const [submited, setSubmited] = useState(false);
-  const [answer, setAnswer] = useState({ 1: false, 2: false, 3: false, 4: false });
+  const [answer, setAnswer] = useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+  });
   const [resultIndex, setResultIndex] = useState(null);
   const navigate = useNavigate();
   const { weather, createGinaRecord } = useAPI();
@@ -40,17 +52,23 @@ function GinaTestPage() {
     let _resultIndex = 2;
 
     // compute the result
-    const totalAnswerOfYes = Object.entries(answer).filter(([_, answer]) => answer).length;
+    const totalAnswerOfYes = Object.entries(answer).filter(
+      ([_, answer]) => answer
+    ).length;
     if (totalAnswerOfYes > 2) _resultIndex = 0;
     else if (totalAnswerOfYes > 0) _resultIndex = 1;
 
-    await createGinaRecord({ aqi: weather?.aqi, status: _resultIndex, weather: weather?.details });
+    await createGinaRecord({
+      aqi: weather?.aqi,
+      status: _resultIndex,
+      weather: weather?.details,
+    });
 
     setResultIndex(_resultIndex);
     setSubmited(true);
   };
 
-  const handleBackToHome = () => navigate("/records", { replace: true });
+  const handleViewRecords = () => navigate("/records", { replace: true });
 
   return (
     <div
@@ -76,8 +94,8 @@ function GinaTestPage() {
           ))}
         </div>
       )}
-      <Button onClick={submited ? handleBackToHome : handleSubmit}>
-        {submited ? "Back to HomePage" : "Submit"}
+      <Button onClick={submited ? handleViewRecords : handleSubmit}>
+        {submited ? "View Records" : "Submit"}
       </Button>
     </div>
   );

@@ -9,7 +9,15 @@ import {
   updatePassword,
   deleteUser,
 } from "firebase/auth";
-import { collection, doc, addDoc, setDoc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const AuthContext = React.createContext("auth");
 
@@ -29,10 +37,12 @@ export function AuthProvider({ children }) {
   }
 
   async function signup(email, password, newdisplayName) {
-    return createUserWithEmailAndPassword(auth, email, password).then(async (credentials) => {
-      setUserID(credentials.user.uid);
-      addNewUser(newdisplayName, credentials.user.uid);
-    });
+    return createUserWithEmailAndPassword(auth, email, password).then(
+      async (credentials) => {
+        setUserID(credentials.user.uid);
+        addNewUser(newdisplayName, credentials.user.uid);
+      }
+    );
   }
 
   function login(email, password) {
@@ -88,5 +98,9 @@ export function AuthProvider({ children }) {
     deleteThisUser,
   };
 
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }

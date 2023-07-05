@@ -11,7 +11,8 @@ import DeleteAccount from "./DeleteAccount";
 import { getAuth } from "firebase/auth";
 
 export default function UpdateProfile() {
-  const { currentUser, updatingEmail, updatingPassword, updateUsername } = useAuth();
+  const { currentUser, updatingEmail, updatingPassword, updateUsername } =
+    useAuth();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState("");
@@ -22,6 +23,20 @@ export default function UpdateProfile() {
   const [currentUsername, setCurrentUsername] = useState("");
   const [isLoginWithGoogle, setIsLoginWithGoogle] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const docRef = doc(db, "users", currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      setUsername(docSnap.data().username);
+    };
+
+    getUser();
+
+    const user = getAuth().currentUser;
+    if (user.providerData[0]?.providerId == "google.com")
+      setIsLoginWithGoogle(true);
+  }, [currentUser.uid]);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -35,19 +50,6 @@ export default function UpdateProfile() {
   const handlePasswordConfirmChange = (e) => {
     setPasswordConfirm(e.target.value);
   };
-
-  useEffect(() => {
-    const getUser = async () => {
-      const docRef = doc(db, "users", currentUser.uid);
-      const docSnap = await getDoc(docRef);
-      setCurrentUsername(docSnap.data().username);
-      console.log(docSnap.data());
-    };
-
-    getUser();
-    const user = getAuth().currentUser;
-    if (user.providerData[0]?.providerId == "google.com") setIsLoginWithGoogle(true);
-  }, [currentUser.uid]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -95,7 +97,10 @@ export default function UpdateProfile() {
 
   useEffect(() => {
     const updateError = () => {
-      if (error === "Passwords do not match" || error === "Email should not be the same") {
+      if (
+        error === "Passwords do not match" ||
+        error === "Email should not be the same"
+      ) {
         toast.warning(error);
       } else if (error !== "") {
         toast.error(error);
@@ -166,7 +171,11 @@ export default function UpdateProfile() {
           />
         )}
         <DeleteAccount />
-        <FormAction loading={loading} handleSubmit={handleSubmit} text="Update" />
+        <FormAction
+          loading={loading}
+          handleSubmit={handleSubmit}
+          text="Update"
+        />
       </div>
 
       <ToastContainer
