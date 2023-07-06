@@ -42,7 +42,7 @@ const authentications = [
     onClick: async (addNewUser) => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
-      signInWithRedirect(auth, provider).then((result) => {
+      signInWithPopup(auth, provider).then((result) => {
         const user = result.user;
         addNewUser(user.displayName, user.uid);
       });
@@ -56,7 +56,7 @@ const authentications = [
     onClick: async (addNewUser) => {
       const provider = new FacebookAuthProvider();
       const auth = getAuth();
-      signInWithRedirect(auth, provider).then((result) => {
+      signInWithPopup(auth, provider).then((result) => {
         const user = result.user;
         addNewUser(user.displayName, user.uid);
       });
