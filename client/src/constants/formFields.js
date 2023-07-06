@@ -2,6 +2,7 @@ import { UilGoogle } from "@iconscout/react-unicons";
 import { UilFacebookF } from "@iconscout/react-unicons";
 import {
   GoogleAuthProvider,
+  FacebookAuthProvider,
   getAuth,
   getRedirectResult,
   signInWithPopup,
@@ -52,6 +53,14 @@ const authentications = [
     symbol: <UilFacebookF size={23} className="text-white mx-0.5" />,
     text: "Login with facebook",
     linkUrl: "/",
+    onClick: async (addNewUser) => {
+      const provider = new FacebookAuthProvider();
+      const auth = getAuth();
+      signInWithPopup(auth, provider).then((result) => {
+        const user = result.user;
+        addNewUser(user.displayName, user.uid);
+      });
+    },
   },
 ];
 
