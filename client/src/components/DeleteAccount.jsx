@@ -31,7 +31,7 @@ export default function DeleteAccount() {
           });
 
           deleteThisUser(currentUser.uid).then(() => {
-            navigate("/")
+            navigate("/login")
               .catch(() => {
                 return setError("Failed to delete account");
               })

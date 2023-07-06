@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth, db } from "../firebase";
+import { auth, db, getDocuments } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -71,9 +71,19 @@ export function AuthProvider({ children }) {
   };
 
   const deleteThisUser = async (id) => {
+    const recordsDocs = await getDocuments("records", currentUser?.uid);
     const userDoc = doc(db, "users", id);
-    await deleteDoc(userDoc);
-    await deleteUser(currentUser);
+
+    deleteUserRecords(recordsDocs).then(async () => {
+      await deleteDoc(userDoc);
+      await deleteUser(currentUser);
+    });
+  };
+
+  const deleteUserRecords = async (recordsDocs) => {
+    for (let i = 0; i < recordsDocs.length; i++) {
+      await deleteDoc(doc(db, "records", recordsDocs[i].id));
+    }
   };
 
   useEffect(() => {

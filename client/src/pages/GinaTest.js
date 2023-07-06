@@ -14,12 +14,12 @@ export const getGinaTestStatusProps = (v) => {
   const data = [
     {
       level: "High",
-      text: "Very Poorly Controlled Asthma",
+      text: "Uncontrolled Asthma",
       color: { text: "text-red-400", bg: "bg-red-400" },
     },
     {
       level: "Medium",
-      text: "Poorly Controlled Asthma",
+      text: "Partly Controlled Asthma",
       color: { text: "text-orange-400", bg: "bg-orange-300" },
     },
     {

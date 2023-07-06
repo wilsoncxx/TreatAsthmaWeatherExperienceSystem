@@ -5,7 +5,14 @@ function AdviceCard({ label, value }) {
   const { weather } = useAPI();
 
   const advice = {
-    Clouds: ["Wrap a sc blablbalblba", "Wrap a sc blablbalblba"],
+    Clouds: [
+      "Take your usual dose of reliever inhaler before going out",
+      "Put extra care to take your medication as prescribed",
+    ],
+    Rain: [
+      "Wrap a scarf around your nose and mouth loosely",
+      "The scarf can prevent airways from being shocked by cold air",
+    ],
   };
 
   return (
