@@ -5,20 +5,8 @@ import { useAuth } from "../services/AuthService";
 
 export default function DeleteAccount() {
   const { currentUser, deleteThisUser } = useAuth();
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
-
-  useEffect(() => {
-    const deleteError = () => {
-      if (error !== "") {
-        toast.error(error);
-      }
-    };
-
-    deleteError();
-  }, [buttonClicked, error]);
 
   return (
     <div className="text-sm flex items-center justify-end">
@@ -26,18 +14,15 @@ export default function DeleteAccount() {
         disabled={loading}
         className="font-medium text-purple-600 hover:text-purple-400"
         onClick={() => {
-          setButtonClicked((currentClicked) => {
-            return !currentClicked;
-          });
-
+          console.log("asdf");
           deleteThisUser(currentUser.uid).then(() => {
-            navigate("/login")
-              .catch(() => {
-                return setError("Failed to delete account");
-              })
-              .finally(() => {
-                setLoading(false);
-              });
+            // navigate("/login")
+            //   .catch(() => {
+            //     toast.error("Failed to delete account");
+            //   })
+            //   .finally(() => {
+            //     setLoading(false);
+            //   });
           });
         }}
       >

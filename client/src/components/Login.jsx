@@ -38,8 +38,9 @@ function Login() {
       await login(email, password);
       navigate("/");
     } catch (error) {
-      console.log(error);
-      setError(error.toString());
+      console.log(JSON.stringify(error));
+      if (error?.code === "auth/user-not-found") setError("User not found");
+      else setError(error.toString());
     }
 
     setLoading(false);
