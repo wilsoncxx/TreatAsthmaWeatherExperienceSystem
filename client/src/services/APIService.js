@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { v4 as uuidV4 } from "uuid";
 import { db, getDocuments } from "../firebase";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
@@ -31,7 +31,10 @@ export const APIProvider = ({ children }) => {
     if (navigator.geolocation && weather == null) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         setWeather(
-          await getFormattedWeatherData({ lat: position.coords.latitude, lon: position.coords.longitude })
+          await getFormattedWeatherData({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          })
         );
       });
     }
@@ -55,7 +58,9 @@ export const APIProvider = ({ children }) => {
   // gina record
   const getGinaRecord = async () => {
     const data = await getDocuments("records", currentUser?.uid);
-    setGinaRecord(data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime)));
+    setGinaRecord(
+      data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+    );
   };
 
   const createGinaRecord = async (data) => {
