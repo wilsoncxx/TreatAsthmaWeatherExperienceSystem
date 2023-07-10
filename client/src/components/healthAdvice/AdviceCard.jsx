@@ -13,6 +13,20 @@ function AdviceCard({ label, value }) {
       "Wrap a scarf around your nose and mouth loosely",
       "The scarf can prevent airways from being shocked by cold air",
     ],
+    Thunderstorm: [],
+    Drizzle: [],
+    Clear: [],
+    snow: [],
+    Snow: [],
+    Mist: [],
+    Smoke: [],
+    Haze: [],
+    Dust: [],
+    Fog: [],
+    Sand: [],
+    Ash: [],
+    Squall: [],
+    Tornado: [],
   };
 
   return (

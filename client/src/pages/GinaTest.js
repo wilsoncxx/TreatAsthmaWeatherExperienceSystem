@@ -48,7 +48,10 @@ function GinaTestPage() {
   const { weather, createGinaRecord } = useAPI();
 
   const handleSubmit = async () => {
-    if (weather == null) toast.error("Please try again");
+    if (weather == null)
+      toast.error(
+        "Please try again, you may need to turn on location service."
+      );
     let _resultIndex = 2;
 
     // compute the result
