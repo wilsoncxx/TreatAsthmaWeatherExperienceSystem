@@ -14,7 +14,7 @@ function ChanceCard({ label, value }) {
       <div
         className={`rounded-xl ${statusProps?.color?.bg} px-3 py-2 text-center`}
       >
-        {lc(statusProps.level) ?? "-"}
+        {lc(statusProps.level ?? "-")}
       </div>
     </div>
   );

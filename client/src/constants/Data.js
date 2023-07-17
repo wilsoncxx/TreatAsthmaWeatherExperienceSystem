@@ -65,6 +65,7 @@ export const allText = {
   High: ["Tinggi"],
   Medium: ["Sederhana"],
   Low: ["Rendah"],
+  "-": ["-"],
   "Health Recommendation for Asthmatic Patients: ": [
     "Cadangan Kesihatan untuk Pesakit Asma: ",
   ],
