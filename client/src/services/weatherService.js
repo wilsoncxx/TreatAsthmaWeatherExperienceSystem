@@ -22,8 +22,6 @@ const getWeatherData = (infoType, searchParams) => {
   });
   // url.search = new URLSearchParams({ ...searchParams, appid: API_KEY });
 
-  console.log(url);
-
   return fetch(url).then((res) => res.json());
 };
 

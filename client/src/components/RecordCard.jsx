@@ -1,6 +1,7 @@
 import React from "react";
 import Divider from "@mui/material/Divider";
 import { getGinaTestStatusProps } from "../pages/GinaTest";
+import { useAPI } from "../services/APIService";
 
 function RecordCard({ record }) {
   let aqiName = "Undefined";
@@ -33,16 +34,22 @@ function RecordCard({ record }) {
       aqiColor = "text-white";
   }
 
-  const style = { text: "text-sm mobile:text-xs flex items-center justify-center text-center" };
+  const style = {
+    text: "text-sm mobile:text-xs flex items-center justify-center text-center",
+  };
+
+  const { lc } = useAPI();
 
   return (
     <div
       className={`bg-white rounded-md py-3 mobile:py-2 px-2 mx-auto grid grid-cols-4 gap-3 divide-x divide-gray-500`}
     >
       <div className={style.text}>{record?.dateTime}</div>
-      <div className={`pl-3 ${style.text} ${statusColor}`}>{getGinaTestStatusProps(record?.status).text}</div>
-      <div className={`pl-3 ${style.text}`}>{record?.weather}</div>
-      <div className={`pl-3 ${style.text} ${aqiColor}`}>{aqiName}</div>
+      <div className={`pl-3 ${style.text} ${statusColor}`}>
+        {lc(getGinaTestStatusProps(record?.status).text)}
+      </div>
+      <div className={`pl-3 ${style.text}`}>{lc(record?.weather)}</div>
+      <div className={`pl-3 ${style.text} ${aqiColor}`}>{lc(aqiName)}</div>
     </div>
   );
 }

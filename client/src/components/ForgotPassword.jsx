@@ -28,7 +28,7 @@ function ForgotPassword() {
       setLoading(true);
       await resetPassword(email);
       toast.info("Check your email for password reset link");
-      toast.success("Your password has been reset successfully");
+      toast.success("An email has been sent to your address");
     } catch (error) {
       console.log(error);
       setError(error.toString());

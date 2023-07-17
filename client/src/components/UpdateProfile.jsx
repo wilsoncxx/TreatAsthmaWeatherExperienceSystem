@@ -9,6 +9,7 @@ import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import DeleteAccount from "./DeleteAccount";
 import { getAuth } from "firebase/auth";
+import { useAPI } from "../services/APIService";
 
 export default function UpdateProfile() {
   const { currentUser, updatingEmail, updatingPassword, updateUsername } =
@@ -23,6 +24,7 @@ export default function UpdateProfile() {
   const [currentUsername, setCurrentUsername] = useState("");
   const [isLoginWithGoogle, setIsLoginWithGoogle] = useState(false);
   const navigate = useNavigate();
+  const { lc } = useAPI();
 
   useEffect(() => {
     const getUser = async () => {
@@ -174,7 +176,7 @@ export default function UpdateProfile() {
         <FormAction
           loading={loading}
           handleSubmit={handleSubmit}
-          text="Update"
+          text={lc("Update")}
         />
       </div>
 

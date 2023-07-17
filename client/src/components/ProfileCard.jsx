@@ -3,11 +3,13 @@ import { useAuth } from "../services/AuthService";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useAPI } from "../services/APIService";
 
 function ProfileCard() {
   const { currentUser } = useAuth();
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const { lc } = useAPI();
 
   useEffect(() => {
     const getUser = async () => {
@@ -41,7 +43,7 @@ function ProfileCard() {
           navigate("/update-profile");
         }}
       >
-        Update Profile
+        {lc("Update Profile")}
       </button>
     </div>
   );

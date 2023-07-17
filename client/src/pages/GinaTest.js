@@ -45,7 +45,7 @@ function GinaTestPage() {
   });
   const [resultIndex, setResultIndex] = useState(null);
   const navigate = useNavigate();
-  const { weather, createGinaRecord } = useAPI();
+  const { weather, createGinaRecord, lc } = useAPI();
 
   const handleSubmit = async () => {
     if (weather == null)
@@ -80,7 +80,11 @@ function GinaTestPage() {
     >
       <MenuBar textColor={"text-slate-800"} />
 
-      <PageTitle title={"GINA Test"} />
+      {submited ? (
+        <PageTitle title={lc("GINA Result")} />
+      ) : (
+        <PageTitle title={lc("GINA Test")} />
+      )}
 
       {submited ? (
         <GinaTestResult value={resultIndex} />
@@ -98,7 +102,7 @@ function GinaTestPage() {
         </div>
       )}
       <Button onClick={submited ? handleViewRecords : handleSubmit}>
-        {submited ? "View Records" : "Submit"}
+        {submited ? lc("View Records") : lc("Submit")}
       </Button>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { getGinaTestStatusProps } from "../../pages/GinaTest";
+import { useAPI } from "../../services/APIService";
 
 function GinaTestResult({ value }) {
   return (
@@ -28,6 +29,8 @@ function GinaTestResult({ value }) {
 export default GinaTestResult;
 
 function ResultBar({ min, max, value, content }) {
+  const { lc } = useAPI();
+
   return (
     <div
       className={`flex py-4 justify-between font-bold w-5/6 rounded-md px-6 gap-2 ${
@@ -39,7 +42,7 @@ function ResultBar({ min, max, value, content }) {
         {min && max ? "-" : ""}
         {max}
       </div>
-      <div className="text-end">{content.text}</div>
+      <div className="text-end">{lc(content.text)}</div>
     </div>
   );
 }

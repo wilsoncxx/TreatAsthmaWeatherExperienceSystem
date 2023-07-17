@@ -6,7 +6,7 @@ import RecordLegend from "../components/RecordLegend";
 import { useAPI } from "../services/APIService";
 
 function RecordsPage() {
-  const { ginaRecord } = useAPI();
+  const { ginaRecord, lc } = useAPI();
   return (
     <div
       className="min-h-screen mx-auto max-w-3xl mobile:px-4 mobile:text-xs tablet:text-md tablet:px-20 tabletxs:px-8
@@ -14,7 +14,7 @@ function RecordsPage() {
     >
       <MenuBar textColor={"text-slate-800"} />
 
-      <PageTitle title={"GINA Records"} />
+      <PageTitle title={lc("GINA Records")} />
       <div className="flex flex-col gap-4">
         <RecordLegend />
         {ginaRecord.map((data, index) => (

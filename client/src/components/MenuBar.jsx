@@ -86,7 +86,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/" className="flex flex-row gap-1">
                 <UilClouds />
-                Weather
+                {lc("Weather")}
               </Link>
             </li>
             <li
@@ -95,7 +95,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/gina-test" className="flex flex-row gap-1">
                 <UilFileQuestionAlt />
-                GINA Test
+                {lc("GINA Test")}
               </Link>
             </li>
             <li
@@ -104,7 +104,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/records" className="flex flex-row gap-1">
                 <UilClipboardNotes />
-                GINA Records
+                {lc("GINA Records")}
               </Link>
             </li>
             <li
@@ -113,7 +113,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/health-advice" className="flex flex-row gap-1">
                 <UilChartBar />
-                Health Advice
+                {lc("Health Advice")}
               </Link>
             </li>
           </ul>
@@ -149,7 +149,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/" className="flex flex-row gap-1">
                 <UilClouds />
-                Weather
+                {lc("Weather")}
               </Link>
             </li>
             <li
@@ -158,7 +158,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/gina-test" className="flex flex-row gap-1">
                 <UilFileQuestionAlt />
-                GINA Test
+                {lc("GINA Test")}
               </Link>
             </li>
             <li
@@ -167,7 +167,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/records" className="flex flex-row gap-1">
                 <UilClipboardNotes />
-                GINA Records
+                {lc("GINA Records")}
               </Link>
             </li>
             <li
@@ -176,7 +176,7 @@ function MenuBar({ textColor = "text-gray-300" }) {
             >
               <Link to="/health-advice" className="flex flex-row gap-1">
                 <UilChartBar />
-                Health Advice
+                {lc("Health Advice")}
               </Link>
             </li>
           </ul>

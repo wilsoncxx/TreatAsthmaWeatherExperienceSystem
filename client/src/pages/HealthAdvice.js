@@ -6,7 +6,7 @@ import AdviceCard from "../components/healthAdvice/AdviceCard";
 import { useAPI } from "../services/APIService";
 
 function HealthAdvicePage() {
-  const { ginaRecord } = useAPI();
+  const { ginaRecord, lc } = useAPI();
 
   return (
     <div
@@ -15,11 +15,17 @@ function HealthAdvicePage() {
     >
       <MenuBar textColor={"text-slate-800"} />
 
-      <PageTitle title={"Health Advice"} />
+      <PageTitle title={lc("Health Advice")} />
 
       <div className="flex gap-4 mt-10">
-        <ChanceCard label="Current chance of asthma exacerbation" value={ginaRecord[0]?.status} />
-        <ChanceCard label="Previous chance of asthma exacerbation" value={ginaRecord[1]?.status} />
+        <ChanceCard
+          label={lc("Current chance of asthma exacerbation")}
+          value={ginaRecord[0]?.status}
+        />
+        <ChanceCard
+          label={lc("Previous chance of asthma exacerbation")}
+          value={ginaRecord[1]?.status}
+        />
       </div>
       <AdviceCard />
     </div>
