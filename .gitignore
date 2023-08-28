@@ -1,4 +1,5 @@
 client/node_modules/
 client/build/
 GINA Asthma Control (ACQ).docx
+client/src/firebase.js
 .vscode
